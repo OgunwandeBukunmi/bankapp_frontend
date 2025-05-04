@@ -23,7 +23,7 @@ useEffect(() => {
     let country;
     try {
       // Attempt to use an alternative IP geolocation service (ip-api.com)
-      const alternativeResponse = await fetch('https://ip-api.com/json');
+      const alternativeResponse = await fetch('https://ipapi.co/json/');
   
       if (alternativeResponse.ok) {
           const data = await alternativeResponse.json();
@@ -34,7 +34,7 @@ useEffect(() => {
       }
   
       // If the alternative API also fails, try the original one (ipapi.co) and handle errors
-      const response = await fetch('https://ipapi.co/json/');
+      const response = await fetch('https://ip-api.com/json');
       if (!response.ok) {
         // Check for 429 specifically
         if (response.status === 429) {
@@ -72,7 +72,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/connectbank/:id" element={<BankDetails />} />
         <Route path="/dashboard/:id" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute>}/>
-        <Route path='/about' element={<ProtectedRoute><About/></ProtectedRoute>}/>
+        <Route path='/about' element={<About/>}/>
         <Route path='/settings/:id' element={<ProtectedRoute><Settings/></ProtectedRoute>}/>
          <Route path='/verification/:id' element={<Verification/>}/>
       </Route>
