@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from "../assets/logo.png";
-import bankImage from "../assets/bankimage.png";
+import bankImage from "../assets/bankImage.png";
 import shield from "../assets/shield.png";
 import timer from "../assets/timer.png";
 import workingTogether from "../assets/undrawWorkingTogether.png";
