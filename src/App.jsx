@@ -23,7 +23,7 @@ useEffect(() => {
     let country;
     try {
       // Attempt to use an alternative IP geolocation service (ip-api.com)
-      const alternativeResponse = await fetch('http://ip-api.com/json');
+      const alternativeResponse = await fetch('https://ip-api.com/json');
   
       if (alternativeResponse.ok) {
           const data = await alternativeResponse.json();
