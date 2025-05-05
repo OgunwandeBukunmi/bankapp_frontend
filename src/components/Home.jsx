@@ -16,31 +16,37 @@ const Home = () => {
 
   return (
     <>
-      <section className=' w-full flex flex-col items-center padding5'>
-        <nav className=" w-full flex p-5 items-center justify-between padding20">
-          <Link to="/"><img src={logo} className="w-[175px] h-[52px]" alt={getAltText("Centkey Logo", "Centkey Logo")} /></Link>
-          <div className='flex gap-[20px] items-center jusity-around'>
-            <Link to='/about' className='text-underline padding10'>{getText('About', 'Über uns')}</Link>
-            <Link className='button w-[100px] ' to='./signup'>{getText('Sign Up', 'Anmelden')}</Link>
+      <section className='w-full flex flex-col items-center padding5'>
+        <nav className="w-full flex flex-wrap gap-[10px] items-center justify-between padding20">
+          <Link to="/">
+            <img src={logo} className="w-[175px] h-[52px]" alt={getAltText("Centkey Logo", "Centkey Logo")} />
+          </Link>
+          <div className='flex gap-4 items-center justify-around mt-4 md:mt-0'>
+            <Link to='/about' className='text-underline padding10 whitespace-nowrap'>{getText('About', 'Über uns')}</Link>
+            <Link className='button w-[100px] whitespace-nowrap' to='./signup'>{getText('Sign Up', 'Anmelden')}</Link>
           </div>
         </nav>
         <main className='flex flex-col padding60 gap-[30px]' >
-          <h1 className='text-xl md:text-5xl   text-center font-bold'>{getText('Track, Monitor and Manage all your bank balances in One Place', 'Verfolgen, Überwachen und Verwalten Sie alle Ihre Bankguthaben an einem Ort')}</h1>
-          <p className='md:text-[26px] text-[15px] '>{getText('Tracking, monitoring and managing your funds has never been this easy. Start now and let’s take you on a memorable journey', 'Das Verfolgen, Überwachen und Verwalten Ihrer Gelder war noch nie so einfach. Starten Sie jetzt und lassen Sie sich auf eine unvergessliche Reise mitnehmen')}</p>
-          <Link className='button w-30 p-4' to='/signup'>{getText('Get Started', 'Loslegen')}</Link>
+          <h1 className='text-2xl md:text-5xl  text-center font-bold'>{getText('Track, Monitor and Manage all your bank balances in One Place', 'Verfolgen, Überwachen und Verwalten Sie alle Ihre Bankguthaben an einem Ort')}</h1>
+          <p className='md:text-[26px] text-[15px] text-center'>{getText('Tracking, monitoring and managing your funds has never been this easy. Start now and let’s take you on a memorable journey', 'Das Verfolgen, Überwachen und Verwalten Ihrer Gelder war noch nie so einfach. Starten Sie jetzt und lassen Sie sich auf eine unvergessliche Reise mitnehmen')}</p>
+          <Link className='button w-30 p-4 self-center' to='/signup'>{getText('Get Started', 'Loslegen')}</Link>
         </main>
-        <div className='mt-[20px] flex flex-col   md:flex-row items-center justify-around gap-[20px] bg-white   padding20 rounded-lg w-[80vw]'>
+        <div className='mt-[20px] flex flex-col  md:flex-row items-center justify-around gap-[20px] bg-white  padding20 rounded-lg w-[80vw]'>
           <div className='flex flex-col text-center items-center justify-center'>
             <img src={shield} alt={getAltText("Shield Icon", "Schild Symbol")} />
             <h1>{getText('Secure', 'Sicher')}</h1>
             <p>{getText('End to end encrypted security', 'Ende-zu-Ende verschlüsselte Sicherheit')}</p>
           </div>
-          <div className='flex flex-col text-center items-center justify-center'><img src={timer} alt={getAltText("Timer Icon", "Timer Symbol")} />
+          <div className='flex flex-col text-center items-center justify-center'>
+            <img src={timer} alt={getAltText("Timer Icon", "Timer Symbol")} />
             <h1>{getText('Real-time Updates', 'Echtzeit-Updates')}</h1>
-            <p>{getText('Time to time update for a perfect user experience', 'Regelmäßige Updates für eine perfekte Benutzererfahrung')}</p></div>
-          <div className='flex flex-col text-center items-center justify-center'><img src={bankImage} alt={getAltText("Bank Icon", "Bank Symbol")} />
+            <p>{getText('Time to time update for a perfect user experience', 'Regelmäßige Updates für eine perfekte Benutzererfahrung')}</p>
+          </div>
+          <div className='flex flex-col text-center items-center justify-center'>
+            <img src={bankImage} alt={getAltText("Bank Icon", "Bank Symbol")} />
             <h1>{getText('Bank Integrations', 'Bankintegrationen')}</h1>
-            <p>{getText('We use special integration to analyse all bank results', 'Wir nutzen spezielle Integrationen zur Analyse aller Bankergebnisse')}</p></div>
+            <p>{getText('We use special integration to analyse all bank results', 'Wir nutzen spezielle Integrationen zur Analyse aller Bankergebnisse')}</p>
+          </div>
         </div>
         <main className='flex flex-col items-center gap-6 padding20 '>
           <h1 className='text-2xl md:text-4xl font-bold text-center'>{getText('Get to Know Us Better', 'Lernen Sie uns besser kennen')}</h1>
@@ -69,7 +75,7 @@ const Home = () => {
               className="w-24 h-24 rounded-full object-cover"
             />
 
-            <div className="flex flex-col   gap-[10px] items-center md:items-start">
+            <div className="flex flex-col  gap-[10px] items-center md:items-start">
               <div className="flex mb-2">
                 {/* 5 Stars */}
                 {[...Array(5)].map((_, index) => (
