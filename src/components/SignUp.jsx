@@ -123,7 +123,7 @@ const SignUp = () => {
         {/* Date of Birth */}
         <div className='flex flex-col'>
           <label htmlFor="dateOfBirth" className='mb-1 text-sm font-medium'>{getText("Date of Birth", "Geburtsdatum")}</label>
-          <input type="date" name="dateOfBirth" className='input-type' value={dateOfBirth} onChange={(e) => setdateOfBirth(e.target.value)} />
+          <input type="date" name="dateOfBirth" className='input-type w-full' value={dateOfBirth} onChange={(e) => setdateOfBirth(e.target.value)} />
         </div>
 
         {/* Gender */}
