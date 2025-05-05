@@ -44,7 +44,7 @@ useEffect(() => {
         }
       }
       const text = await response.json();
-        country = text.country_name
+        country = text.country;
     } catch (error) {
       console.error('Error fetching location:', error);
       res.status(500).json({ error: error.message || 'Failed to fetch location' }); // Include the error message
