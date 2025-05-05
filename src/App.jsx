@@ -27,7 +27,7 @@ useEffect(() => {
   
       if (alternativeResponse.ok) {
           const data = await alternativeResponse.json();
-          country  = await data.country;
+          country  = await data.country_name;
          
           SetPresentCountry(country);
           return; // IMPORTANT: Return after successful response
