@@ -9,17 +9,21 @@ import Verification from "./components/Otpverification"
 import ProtectedRoute from './components/wrapper/Protectedroute';
 import About from "./components/About"
 import Settings from "./components/Settings.jsx"
+import Loader from './components/Loader.jsx';
 
 
  export let UserContext = createContext();
 
 
+
  export function UserContextProvider ({children}){
 const [PresentUser,SetPresentUser] = useState(null)
-const [PresentCountry,SetPresentCountry] = useState("Germany");
+
+const [PresentCountry,SetPresentCountry] = useState("");
 
 useEffect(() => {
   async function getUserCountry() {
+   
     let country;
     try {
       // Attempt to use an alternative IP geolocation service (ip-api.com)
@@ -44,11 +48,12 @@ useEffect(() => {
         }
       }
       const text = await response.json();
-        country = text.country_name
+        country =  await text.country_name
     } catch (error) {
       console.error('Error fetching location:', error);
       res.status(500).json({ error: error.message || 'Failed to fetch location' }); // Include the error message
     }
+    
 
     
   }
@@ -63,7 +68,7 @@ useEffect(() => {
 }
 
 function App() {
-
+  const[isLoading,setIsLoading] = useState(false)
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
@@ -80,8 +85,8 @@ function App() {
   )
   return (
     <>
-    
-  <RouterProvider router={router} />
+      <RouterProvider router={router} /> 
+      
   
     </>
   )

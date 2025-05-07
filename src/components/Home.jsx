@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo.png";
 import bankImage from "../assets/bankImage.png";
 import shield from "../assets/shield.png";
@@ -8,11 +8,34 @@ import { Link } from 'react-router-dom';
 import UseContext from "./useContext.jsx";
 
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const { PresentUser, SetPresentUser, PresentCountry } = UseContext();
+
+  useEffect(() => {
+    // Simulate loading, and then check for PresentCountry
+    const timer = setTimeout(() => {
+        if (!PresentCountry) {
+          setIsLoading(true);
+        } else {
+          setIsLoading(false);
+        }
+    }, 500); // reduced timeout to 500ms for faster loading
+
+    return () => clearTimeout(timer); //clear timeout
+  }, [PresentCountry]);
+
   console.log({ PresentUser, SetPresentUser, PresentCountry });
 
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
   const getAltText = (english, german) => (PresentCountry === 'Germany' ? german : english);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -27,7 +50,7 @@ const Home = () => {
           </div>
         </nav>
         <main className='flex flex-col padding60 gap-[30px]' >
-          <h1 className='text-2xl md:text-5xl  text-center font-bold'>{getText('Track, Monitor and Manage all your bank balances in One Place', 'Verfolgen, Überwachen und Verwalten Sie alle Ihre Bankguthaben an einem Ort')}</h1>
+          <h1 className='text-2xl md:text-5xl   text-center font-bold'>{getText('Track, Monitor and Manage all your bank balances in One Place', 'Verfolgen, Überwachen und Verwalten Sie alle Ihre Bankguthaben an einem Ort')}</h1>
           <p className='md:text-[26px] text-[15px] text-center'>{getText('Tracking, monitoring and managing your funds has never been this easy. Start now and let’s take you on a memorable journey', 'Das Verfolgen, Überwachen und Verwalten Ihrer Gelder war noch nie so einfach. Starten Sie jetzt und lassen Sie sich auf eine unvergessliche Reise mitnehmen')}</p>
           <Link className='button w-30 p-4 self-center' to='/signup'>{getText('Get Started', 'Loslegen')}</Link>
         </main>
@@ -60,7 +83,7 @@ const Home = () => {
               <br /><br />
               {getText(
                 'The app has empowered thousands of users to stay on top of their income, expenses, savings, and investments with real-time and smart budgeting tools. Over the years, it has earned trust for its simplicity, security, and ability to connect multiple accounts, making fund management easier than ever before.',
-                'Die App hat Tausende von Nutzern in die Lage versetzt, ihre Einnahmen, Ausgaben, Ersparnisse und Investitionen mit Echtzeit- und intelligenten Budgetierungstools im Blick zu behalten. Im Laufe der Jahre hat sie Vertrauen gewonnen für ihre Einfachheit, Sicherheit und Fähigkeit, mehrere Konten zu verbinden, was die Fondsverwaltung einfacher denn je macht.'
+                'Die App hat Tausende von Nutzern in die Lage versetzt, ihre Einnahmen, Ausgaben und Investitionen mit Echtzeit- und intelligenten Budgetierungstools im Blick zu behalten. Im Laufe der Jahre hat sie Vertrauen gewonnen für ihre Einfachheit, Sicherheit und Fähigkeit, mehrere Konten zu verbinden, was die Fondsverwaltung einfacher denn je macht.'
               )}
             </p>
           </div>

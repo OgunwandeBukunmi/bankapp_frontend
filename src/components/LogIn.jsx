@@ -1,6 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import UseContext from "./useContext.jsx";
+import Loader from './Loader.jsx';
 
 const LoginForm = () => {
   const { PresentCountry } = UseContext();
@@ -11,10 +12,11 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(''); // Error state to hold error messages
   const Navigate = useNavigate();
+  const [isLoading,setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
       const request = await fetch("https://centkey-backend.onrender.com/login", {
         method: "POST",
@@ -38,7 +40,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] p-8 flex flex-col justify-center items-center gap-[30px] rounded-lg shadow-md">
+    !isLoading ? (
+      <div className="w-[100vw] h-[100vh] p-8 flex flex-col justify-center items-center gap-[30px] rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">{getText("Log in", "Anmelden")}</h2>
 
       <main className="space-y-4 bg-white w-[90vw] sm:w-[70vw] md:w-[55vw] h-[80vh] sm:h-[75vh] md:h-[70vh] flex flex-col gap-5 justify-center items-center rounded-lg">
@@ -112,7 +115,10 @@ const LoginForm = () => {
           </Link>
         </p>
       </main>
-    </div>
+    </div>) :(
+        <Loader/>
+    )
+    
   );
 };
 
