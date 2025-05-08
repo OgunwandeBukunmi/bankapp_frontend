@@ -1,10 +1,20 @@
 import { useNavigate, Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import UseContext from "./useContext.jsx";
 import Loader from './Loader.jsx';
 
 const LoginForm = () => {
   const { PresentCountry } = UseContext();
+  const [isLoading,setIsLoading] = useState(false)
+ 
+  useEffect(() => {
+    // Simulate loading, and then check for PresentCou
+        if (!PresentCountry) {
+          setIsLoading(true);
+        } else {
+          setIsLoading(false);
+        }
+  }, [PresentCountry]);
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
 
   const [email, setEmail] = useState('');
@@ -12,7 +22,7 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(''); // Error state to hold error messages
   const Navigate = useNavigate();
-  const [isLoading,setIsLoading] = useState(false)
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

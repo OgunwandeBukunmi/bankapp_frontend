@@ -6,14 +6,21 @@ function BackButton({ light = false }) {
   const navigate = useNavigate();
   const { PresentCountry } = UseContext(); // Access PresentCountry from the context
   const [buttonText, setButtonText] = useState('');
+  const [isLoading,setIsLoading] = useState(false)
+
 
    useEffect(() => {
-    // Set the button text based on the PresentCountry
-    if (PresentCountry === 'Germany') {
-      setButtonText('Zurück');
+    if (!PresentCountry) {
+      setIsLoading(true);
     } else {
-      setButtonText('Back');
+      setIsLoading(false)
+      if (PresentCountry === 'Germany') {
+        setButtonText('Zurück');
+      } else {
+        setButtonText('Back');
+      }
     }
+    
   }, [PresentCountry]);
 
   const handleGoBack = () => {

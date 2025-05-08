@@ -34,6 +34,7 @@ useEffect(() => {
           country  = await data.country_name;
          
           SetPresentCountry(country);
+          console.log(country)
           return; // IMPORTANT: Return after successful response
       }
   

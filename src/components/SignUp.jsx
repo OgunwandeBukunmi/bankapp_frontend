@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import UseContext from "./useContext.jsx";
@@ -6,8 +6,17 @@ import Loader from './Loader.jsx';
 
 const SignUp = () => {
   const { PresentCountry } = UseContext();
+ 
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
   const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+      // Simulate loading, and then check for PresentCou
+          if (!PresentCountry) {
+            setIsLoading(true);
+          } else {
+            setIsLoading(false);
+          }
+    }, [PresentCountry]);
   const [Error, setError] = useState("");
   const [FirstName, setfirstName] = useState("");
   const [SecondName, setSecondName] = useState("");

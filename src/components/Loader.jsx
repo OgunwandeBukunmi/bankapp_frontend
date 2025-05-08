@@ -5,8 +5,8 @@ import logo from '../assets/logoIcon.png'; // Import your logo
 const Loader = () => {
   return (
    
-        <div class="spinner-container">
-            <div class="spinner"></div>
+        <div className="spinner-container">
+            <div className="spinner"></div>
         </div>
   );
 };

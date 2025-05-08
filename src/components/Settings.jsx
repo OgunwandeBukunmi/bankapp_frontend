@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UseContext from "./useContext.jsx";
 import BackButton from "./wrapper/Backbutton.jsx";
+import Loader from "./Loader.jsx";
 
 const UserInfoDisplay = ({ userInfo, isGerman }) => (
   <div className="rounded-xl w-[100vw] padding20 min-h-screen bg-[#f4f4f4]">
@@ -42,6 +43,15 @@ const Settings = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
   const { PresentUser, PresentCountry } = UseContext();
+    const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    // Simulate loading, and then check for PresentCou
+        if (!PresentCountry) {
+          setIsLoading(true);
+        } else {
+          setIsLoading(false);
+        }
+  }, [PresentCountry]);
 
   useEffect(() => {
     if (PresentUser) {
@@ -49,23 +59,30 @@ const Settings = () => {
       console.log(PresentUser);
     }
   }, [PresentUser]);
+  useEffect(()=>{
+    if(!userInfo){
+      setIsLoading(true)
+    }else{
+      setIsLoading(false)
+    }
+  },[userInfo])
 
   if (error) {
     return <div>Fehler: {error}</div>;
   }
 
   const isGerman = PresentCountry === 'Germany';
-  const loadingText = isGerman ? 'Laden...' : 'Loading...';
+ 
 
   return (
-    <>
-      <BackButton />
-      {userInfo ? (
+    !isLoading ? (
+      <>
+       <BackButton />
         <UserInfoDisplay userInfo={userInfo} isGerman={isGerman} />
+        </>
       ) : (
-        <h1>{loadingText}</h1>
-      )}
-    </>
+        <Loader/>
+      )
   );
 };
 

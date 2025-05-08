@@ -12,16 +12,12 @@ const Home = () => {
   const { PresentUser, SetPresentUser, PresentCountry } = UseContext();
 
   useEffect(() => {
-    // Simulate loading, and then check for PresentCountry
-    const timer = setTimeout(() => {
+    // Simulate loading, and then check for PresentCou
         if (!PresentCountry) {
           setIsLoading(true);
         } else {
           setIsLoading(false);
         }
-    }, 500); // reduced timeout to 500ms for faster loading
-
-    return () => clearTimeout(timer); //clear timeout
   }, [PresentCountry]);
 
   console.log({ PresentUser, SetPresentUser, PresentCountry });

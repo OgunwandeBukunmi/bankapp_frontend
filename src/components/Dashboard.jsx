@@ -3,17 +3,27 @@ import logolight from "../assets/logoLight.png";
 import { Home, HelpCircle, Clock, Settings, Menu } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import UseContext from "./useContext.jsx";
+import Loader from "./Loader.jsx";
 
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(true);
+  const [isLoading,setIsLoading] = useState(false)
+   let { PresentUser, SetPresentUser, PresentCountry } = UseContext();
   const { id } = useParams();
   const [verification, SetVerification] = useState(false);
-  let { PresentUser, SetPresentUser, PresentCountry } = UseContext();
+  useEffect(() => {
+        if (!PresentCountry) {
+          setIsLoading(true);
+        } else {
+          setIsLoading(false);
+        }
+  }, [PresentCountry]);
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
   const getAltText = (english, german) => (PresentCountry === 'Germany' ? german : english);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      setIsLoading(true)
       try {
         const response = await fetch(`https://centkey-backend.onrender.com/user/${id}`);
 
@@ -25,6 +35,7 @@ const Dashboard = () => {
 
         SetVerification(data.verification);
         SetPresentUser(data)
+        setIsLoading(true)
       } catch (err) {
         console.error({ error: err });
       }
@@ -34,7 +45,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section className="flex flex-col md:flex-row w-full h-full min-h-screen">
+    !isLoading ? (  <section className="flex flex-col md:flex-row w-full h-full min-h-screen">
       {/* Toggle Button (visible on small screens) */}
       <div className="md:hidden flex justify-between items-center padding20 bg-[#1E2A38] text-white">
         <img src={logolight} alt={getAltText("Centkey logo", "Centkey Logo")} className="h-8" />
@@ -105,7 +116,10 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section>) :(
+      <Loader/>
+    )
+  
   );
 };
 

