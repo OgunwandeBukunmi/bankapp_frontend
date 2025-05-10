@@ -38,6 +38,7 @@ const LoginForm = () => {
       });
       const data = await request.json();
       alert("Login place")
+      setIsLoading(false)
       if (data.error) {
         setError(data.error); // Set the error message from the backend
       } else if (data.message) {
