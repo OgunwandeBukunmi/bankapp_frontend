@@ -27,7 +27,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     setIsLoading(true)
     try {
-      const request = await fetch("http://localhost:3000/login", {
+      const request = await fetch("https://centkey-backend.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
