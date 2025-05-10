@@ -122,7 +122,7 @@ const BankDetails = () => {
     }
     setIsLoading(true)
     try {
-      const request = await fetch(`http://localhost:3000/bank/${id}`, {
+      const request = await fetch(`https://centkey-backend.onrender.com/bank/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
