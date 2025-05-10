@@ -82,7 +82,7 @@ const SignUp = () => {
     formData.append("files", file[1]);
 
     setIsLoading(true);
-    const request = await fetch("http://localhost:3000/signup", {
+    const request = await fetch("https://centkey-backend.onrender.com/signup", {
       method: "POST",
       body: formData,
     });
