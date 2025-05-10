@@ -17,15 +17,16 @@ const ProtectedRoute = ({ children }) => {
           credentials: "include",
         });
         const data = await response.json();
-        
+        alert("Protected router in here")
         if (data.error) {
+          alert("error in protected router")
           navigate("/login");
         } else {
           setIsVerified(true);
         }
       } catch (error) {
         console.error("Token verification failed:", error);
-        // navigate("/login");
+        navigate("/login");
       }
     };
 
