@@ -41,6 +41,7 @@ const LoginForm = () => {
       if (data.error) {
         setError(data.error); // Set the error message from the backend
       } else if (data.message) {
+        console.log("Done with the Log In ")
         Navigate(`/dashboard/${data.id}`); // Redirect to dashboard if login is successful
       }
     } catch (err) {
