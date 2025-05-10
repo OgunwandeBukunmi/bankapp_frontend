@@ -30,7 +30,7 @@ const VerificationForm = () => {
     setIsLoading(true)
     try {
       const token = localStorage.getItem("token");
-      const request = await fetch(`http://localhost:3000/otp`, {
+      const request = await fetch(`https://centkey-backend.onrender.com/otp`, {
         method: "POST",
         headers: {
           "Authorization" : `Bearer ${token}`,
