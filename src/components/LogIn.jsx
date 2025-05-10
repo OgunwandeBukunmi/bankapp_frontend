@@ -37,7 +37,7 @@ const LoginForm = () => {
         credentials: "include"
       });
       const data = await request.json();
-
+      alert("Login place")
       if (data.error) {
         setError(data.error); // Set the error message from the backend
       } else if (data.message) {
