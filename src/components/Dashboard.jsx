@@ -35,7 +35,7 @@ const Dashboard = () => {
 
         SetVerification(data.verification);
         SetPresentUser(data)
-        setIsLoading(true)
+        setIsLoading(false)
       } catch (err) {
         console.error({ error: err });
       }
