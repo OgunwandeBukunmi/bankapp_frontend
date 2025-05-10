@@ -25,7 +25,7 @@ const Dashboard = () => {
     const fetchUserInfo = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch(`http://localhost:3000/user/${id}`);
+        const response = await fetch(`https://centkey-backend.onrender.com/user/${id}`);
 
         if (!response.ok) {
           throw new Error(getText('Failed to fetch user data', 'Fehler beim Abrufen der Nutzerdaten'));
