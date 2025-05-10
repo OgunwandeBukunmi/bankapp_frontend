@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
         const data = await response.json();
         alert("Protected router in here")
         if (data.error) {
-          alert("error in protected router")
+          alert("error in protected router", data.error)
           navigate("/login");
         } else {
           setIsVerified(true);
