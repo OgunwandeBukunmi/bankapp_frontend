@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackButton from "./wrapper/Backbutton";
-import UseContext from "./useContext.jsx"; // Import useContext
+import UseContext from "./UseContext.jsx"; // Import useContext
 import Loader from "./Loader.jsx";
 
 const BankDetails = () => {
@@ -16,9 +16,10 @@ const BankDetails = () => {
     address: "",
   });
   const [formErrors, setFormErrors] = useState({});
-    const { PresentCountry } = UseContext(); // Consume the context
+    const { PresentCountry } = UseContext();  // the country determining the language
     const [isLoading,setIsLoading] = useState(false)
-  const [GermanyBanks, setGermanyBanks] = useState();
+  const [GermanyBanks, setGermanyBanks] = useState([]);
+  // The country that the user is going to pick not the one determining the language
   useEffect(() => {
     if (!PresentCountry) {
       setIsLoading(true);
@@ -28,8 +29,7 @@ const BankDetails = () => {
 }, [PresentCountry]);
 
     useEffect(() => {
-        // Update GermanyBanks based on the language.
-        if (PresentCountry === 'Germany') {
+        if (formData.country === 'Germany') {
           setGermanyBanks([
             "Deutsche Bank",
             "Commerzbank",
@@ -42,7 +42,7 @@ const BankDetails = () => {
             "DKB",
             "Sparkasse",
           ]);
-        } else if(PresentCountry == 'Canada'){
+        } else if(formData.country === 'Canada'){
             setGermanyBanks([
               "Royal Bank of Canada (RBC)",
               "Toronto-Dominion Bank (TD)",
@@ -56,7 +56,7 @@ const BankDetails = () => {
               "Manulife Bank"
               ])
             
-        }else if(PresentCountry == 'Switzerland'){
+        }else if(formData.country === 'Switzerland'){
           setGermanyBanks([
             "UBS",
             "Credit Suisse",
@@ -69,7 +69,7 @@ const BankDetails = () => {
             "EFG International",
             "Lombard Odier Group"
             ]) 
-      }else if(PresentCountry == 'United States'){
+      }else if(formData.country === 'United States'){
         setGermanyBanks([
           "JPMorgan Chase",
           "Bank of America",
@@ -82,7 +82,7 @@ const BankDetails = () => {
           "Goldman Sachs",
           "Morgan Stanley"
           ])
-        }else if(PresentCountry == 'United Kingdom'){
+        }else if(formData.country === 'United Kingdom'){
           setGermanyBanks([
             "HSBC",
     "Barclays",
@@ -96,7 +96,7 @@ const BankDetails = () => {
     "TSB Bank"
             ])
           }
-    }, [PresentCountry]);
+    }, [formData.country]);
 
   // Function to get text based on the current language
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
@@ -122,7 +122,7 @@ const BankDetails = () => {
     }
     setIsLoading(true)
     try {
-      const request = await fetch(`https://centkey-backend.onrender.com/bank/${id}`, {
+      const request = await fetch(`http://localhost:3000/bank/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,6 +165,11 @@ const BankDetails = () => {
                 className="padding10 border rounded-md input-type"
               >
                 <option value="Germany">Germany</option>
+                <option value="Canada">Canada</option>
+                <option value="Unites States">Unites States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Switzerland">Switzerland</option>
+                
               </select>
             </div>
             <div className="flex flex-col">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 import BackButton from "./wrapper/Backbutton.jsx";
 import Loader from "./Loader.jsx";
 

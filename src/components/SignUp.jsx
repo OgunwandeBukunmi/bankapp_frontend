@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 import Loader from './Loader.jsx';
 
 const SignUp = () => {
@@ -10,7 +10,6 @@ const SignUp = () => {
   const getText = (english, german) => (PresentCountry === 'Germany' ? german : english);
   const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
-      // Simulate loading, and then check for PresentCou
           if (!PresentCountry) {
             setIsLoading(true);
           } else {
@@ -83,16 +82,16 @@ const SignUp = () => {
     formData.append("files", file[1]);
 
     setIsLoading(true);
-    const request = await fetch("https://centkey-backend.onrender.com/signup", {
-
+    const request = await fetch("http://localhost:3000/signup", {
       method: "POST",
       body: formData,
-      credentials: 'include',
-
     });
     const data = await request.json();
     const id = data.id
-    if (data.message) Navigate(`/dashboard/${id}`)
+    if (data.message) {
+      localStorage.setItem("token", data.token);
+      Navigate(`/dashboard/${id}`)
+    }
 
 
   };

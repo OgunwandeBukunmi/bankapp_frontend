@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import React, { useState,useEffect } from 'react';
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 import Loader from './Loader.jsx';
 
 const LoginForm = () => {
@@ -25,24 +25,22 @@ const LoginForm = () => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setIsLoading(true)
     try {
-      const request = await fetch("https://centkey-backend.onrender.com/login", {
+      const request = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, password }),
-        credentials: "include"
+        
       });
       const data = await request.json();
-      alert("Login place")
-      setIsLoading(false)
+    
       if (data.error) {
         setError(data.error); // Set the error message from the backend
       } else if (data.message) {
-        console.log("Done with the Log In ")
+        localStorage.setItem("token", data.token);
         Navigate(`/dashboard/${data.id}`); // Redirect to dashboard if login is successful
       }
     } catch (err) {

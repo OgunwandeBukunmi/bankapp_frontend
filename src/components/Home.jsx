@@ -5,7 +5,7 @@ import shield from "../assets/shield.png";
 import timer from "../assets/timer.png";
 import workingTogether from "../assets/undrawWorkingTogether.png";
 import { Link } from 'react-router-dom';
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // Start with loading true

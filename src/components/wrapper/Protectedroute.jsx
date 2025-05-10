@@ -9,17 +9,19 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await fetch("https://centkey-backend.onrender.com/verifytoken", {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:3000/verifytoken", {
           method: "POST",
           headers :{
+            "Authorization" : `Bearer ${token}`,
             "Content-Type" : "application/json"
           },
-          credentials: "include",
+          
         });
         const data = await response.json();
-        alert("Protected router in here")
+      
         if (data.error) {
-          alert(data.error)
+          
           navigate("/login");
         } else {
           setIsVerified(true);

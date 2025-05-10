@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
-import UseContext from "./useContext.jsx"; // Import the useContext
+import UseContext from "./UseContext.jsx"; // Import the useContext
 import Loader from './Loader.jsx';
 
 const VerificationForm = () => {
@@ -29,12 +29,14 @@ const VerificationForm = () => {
     e.preventDefault(); // Prevent default form submission
     setIsLoading(true)
     try {
-      const request = await fetch(`https://centkey-backend.onrender.com/otp`, {
+      const token = localStorage.getItem("token");
+      const request = await fetch(`http://localhost:3000/otp`, {
         method: "POST",
         headers: {
+          "Authorization" : `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-        credentials: 'include',
+        
         body: JSON.stringify({ OTP, id }) // Include the id
       });
 

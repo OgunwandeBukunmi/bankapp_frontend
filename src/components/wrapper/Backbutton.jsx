@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UseContext from "../useContext.jsx"; // Import the context.  Corrected path.
+import UseContext from "../UseContext.jsx"; // Import the context.  Corrected path.
 
 function BackButton({ light = false }) {
   const navigate = useNavigate();

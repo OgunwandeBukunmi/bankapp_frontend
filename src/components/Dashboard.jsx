@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import logolight from "../assets/logoLight.png";
 import { Home, HelpCircle, Clock, Settings, Menu } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 import Loader from "./Loader.jsx";
 
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [isLoading,setIsLoading] = useState(false)
-   let { PresentUser, SetPresentUser, PresentCountry } = UseContext();
+   let {  SetPresentUser, PresentCountry } = UseContext();
   const { id } = useParams();
   const [verification, SetVerification] = useState(false);
   useEffect(() => {
@@ -25,7 +25,7 @@ const Dashboard = () => {
     const fetchUserInfo = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch(`https://centkey-backend.onrender.com/user/${id}`);
+        const response = await fetch(`http://localhost:3000/user/${id}`);
 
         if (!response.ok) {
           throw new Error(getText('Failed to fetch user data', 'Fehler beim Abrufen der Nutzerdaten'));

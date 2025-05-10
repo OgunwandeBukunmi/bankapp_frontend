@@ -10,16 +10,12 @@ import ProtectedRoute from './components/wrapper/Protectedroute';
 import About from "./components/About"
 import Settings from "./components/Settings.jsx"
 import Loader from './components/Loader.jsx';
-import UserImages from './components/Images.jsx';
 
 
  export let UserContext = createContext();
 
-
-
  export function UserContextProvider ({children}){
-const [PresentUser,SetPresentUser] = useState(null)
-
+const [PresentUser,SetPresentUser] = useState({name: "admin"}) // a blueprint or temporary value
 const [PresentCountry,SetPresentCountry] = useState("");
 
 useEffect(() => {
@@ -78,11 +74,11 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/connectbank/:id" element={<BankDetails />} />
-        <Route path="/dashboard/:id" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute>}/>
+        <Route path="/dashboard/:id" element={ <ProtectedRoute><Dashboard /></ProtectedRoute>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/settings/:id' element={<ProtectedRoute><Settings/></ProtectedRoute>}/>
-         <Route path='/verification/:id' element={<Verification/>}/>
-         <Route path='/image/:id' element={<UserImages/>}/>
+         <Route path='/verification/:id' element={<ProtectedRoute><Verification/></ProtectedRoute>}/>
+        
       </Route>
     )
   )

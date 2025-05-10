@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from "../assets/logo.png";
-import UseContext from "./useContext.jsx";
+import UseContext from "./UseContext.jsx";
 import Loader from './Loader.jsx';
 
 const About = () => {
