@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ const ProtectedRoute = ({ children }) => {
           headers :{
             "Content-Type" : "application/json"
           },
-          body:JSON.stringify({}),
           credentials: "include",
         });
         const data = await response.json();
@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
     verifyToken();
   }, [navigate]);
 
-  if (isVerified === null) return <div>Loading...</div>; // Or a spinner
+  if (isVerified === null) return <Loader/>; // Or a spinner
   return children;
 };
 

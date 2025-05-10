@@ -10,6 +10,7 @@ import ProtectedRoute from './components/wrapper/Protectedroute';
 import About from "./components/About"
 import Settings from "./components/Settings.jsx"
 import Loader from './components/Loader.jsx';
+import UserImages from './components/Images.jsx';
 
 
  export let UserContext = createContext();
@@ -81,6 +82,7 @@ function App() {
         <Route path='/about' element={<About/>}/>
         <Route path='/settings/:id' element={<ProtectedRoute><Settings/></ProtectedRoute>}/>
          <Route path='/verification/:id' element={<Verification/>}/>
+         <Route path='/image/:id' element={<UserImages/>}/>
       </Route>
     )
   )
