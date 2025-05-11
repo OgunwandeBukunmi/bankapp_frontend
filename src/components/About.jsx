@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import logo from "../assets/logo.png";
 import UseContext from "./UseContext.jsx";
 import Loader from './Loader.jsx';
