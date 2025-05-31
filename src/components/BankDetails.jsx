@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackButton from "./wrapper/Backbutton";
-import UseContext from "./UseContext.jsx"; // Import useContext
+import UseContext from "./useContext.jsx"; // Import useContext
 import Loader from "./Loader.jsx";
+import { useNavigate } from "react-router-dom";
 
 const BankDetails = () => {
   const { id } = useParams();
+  const Navigate = useNavigate()
   const [formData, setFormData] = useState({
     phone: "",
     country: "Germany",
@@ -130,7 +132,10 @@ const BankDetails = () => {
         body: JSON.stringify(formData),
       });
       const data = await request.json();
-      console.log(data);
+      if(data.message == "succesful"){
+          Navigate(`/dashboard/${id}`)
+      }
+      console.log(data.BankAccount);
       setIsLoading(false)
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -166,7 +171,7 @@ const BankDetails = () => {
               >
                 <option value="Germany">Germany</option>
                 <option value="Canada">Canada</option>
-                <option value="Unites States">Unites States</option>
+                <option value="United States">United States</option>
                 <option value="United Kingdom">United Kingdom</option>
                 <option value="Switzerland">Switzerland</option>
                 
