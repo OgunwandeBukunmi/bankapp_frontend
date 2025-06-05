@@ -25,6 +25,10 @@ const LoginForm = () => {
 
 
   const handleSubmit = async (e) => {
+     if(!email || !password) {
+      setError("Incomplete credentials")
+      return ;
+    }
     setIsLoading(true)
     try {
       const request = await fetch("https://centkey-backend.onrender.com/login", {
